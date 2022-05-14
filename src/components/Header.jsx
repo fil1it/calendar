@@ -11,7 +11,7 @@ export default class Header extends React.Component{
     render(){
         if(this.props.isLogin){
             return<div className="header">
-                <div><img className="logo" src={logo}/></div> 
+                <div><img className="logo" src={logo} alt="img"/></div> 
                 <div className="headerBtn">
                     <button className="addBtn">Добавить событие</button>
                     <button onClick={this.handleClick} className="exitBtn">Выйти</button>
@@ -21,7 +21,7 @@ export default class Header extends React.Component{
     }
         else{
            return<div className="header">
-                <div><img className="logo" src={logo}/></div> 
+                <div><img className="logo" src={logo} alt="img"/></div> 
                 </div> 
         }
     }

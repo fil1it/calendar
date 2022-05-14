@@ -7,7 +7,7 @@ export default class LoginForm extends React.Component{
             inputName: "No Name",
             inputLName:"test"
         };
-    
+        
         this.handleChange = this.handleChange.bind(this);
       }
 

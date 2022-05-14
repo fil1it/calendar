@@ -1,33 +1,27 @@
 import React from "react";
 import "./style.css"
 import LoginForm from "./components/LoginForm";
-import LeftBar from "./components/LeftBar";
+//import LeftBar from "./components/LeftBar";
 import Dashboard from "./components/Dashboard";
 import Header from "./components/Header"
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+//import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-const events = [
-  {
-    date: '',
-    title: "событие 1"
-  },
-]
+// const events = [
+//   {
+//     date: '',
+//     title: "событие 1"
+//   },
+// ]
 
 class App extends React.Component{
-  // constructor(props){
-  //   super(props);
-  //   this.state={
-      
-  //   }
-  // }
+
   constructor(props) {
     super(props);
     this.state = {
       isLogin: false,
       name: "",
-      date: new Date()
+      //date: new Date()
     };
-    this.updateDate = this.updateDate.bind(this)
   }
 
   handleLoginClick = (param) => {
@@ -42,10 +36,6 @@ class App extends React.Component{
     this.setState({ name: sentName });
   }
 
-  updateDate = (sentdate) => {
-    this.setState({date:sentdate});
-  }
-
   render (){
     return <div className="App">
 
@@ -53,14 +43,11 @@ class App extends React.Component{
         isLogin={this.state.isLogin} 
         handleLoginClick={ this.handleLoginClick }/>
 
-      {this.state.isLogin? <div className="MainScreen">
-        <LeftBar 
-          name={this.state.name} 
-          updateDate={this.updateDate}
-        /> 
+      {this.state.isLogin ? <div>
         <Dashboard 
-          date={this.state.date} 
-          handleLoginClick={ this.handleLoginClick }
+          //date={this.state.date} 
+          handleLoginClick={ this.handleLoginClick}
+          name={this.state.name} 
           //events={this.state.events}
         />
       </div> : <LoginForm handleLoginClick={ this.handleLoginClick } updateName={this.updateName}/>}

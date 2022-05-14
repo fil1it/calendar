@@ -5,6 +5,7 @@
 .MainScreen{
     display: flex;
     flex-direction: row;
+    flex-wrap: nowrap;
     min-height: 90vh;
 }
 
@@ -105,6 +106,7 @@ input:hover, input:focus {
 }
 
 .event{
+    cursor: pointer;
     display: flex;
     flex-direction: row;
     text-align: left;
@@ -123,12 +125,14 @@ input:hover, input:focus {
 }
 
 .delBtn {
+    width: 120px;
+    height: 35px;
     border-radius: 10px;
-    display: inline-flex;
+    display: inline-block;
     margin-left:auto;
     text-decoration: none;
     position:relative;
-    padding: 10px 30px;
+    padding: 10px;
     color: rgb(0, 0, 0);
     text-transform: uppercase; 
     background: #f8f9f9;
@@ -177,7 +181,7 @@ input:hover, input:focus {
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
-    display: flex;
+    display: inline-block;
      box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
      7px 7px 20px 0px rgba(0,0,0,.1),
      4px 4px 5px 0px rgba(0,0,0,.1);
@@ -222,7 +226,6 @@ input:hover, input:focus {
     color: rgb(0, 0, 0);
     border-radius: 5px;
     padding: 10px 25px;
-    font-family: 'Lato', sans-serif;
     font-weight: 500;
     background: transparent;
     cursor: pointer;
@@ -265,3 +268,36 @@ input:hover, input:focus {
   .exitBtn:active {
     top: 2px;
   }
+
+.modal{
+    height: 100vh;
+    width: 100vw;
+    top:0;
+    left:0;
+    background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.5s;
+    z-index: 1;
+}
+
+.modal.active{
+  opacity: 1;
+  pointer-events: all;
+}
+.modal_header{
+  padding-top: 10px;
+  padding-bottom: 20px;
+}
+
+.modal_content{
+  padding: 20px;
+  border-radius: 10px;
+  background-color: white;
+  min-height: 200px;
+  width: 400px;
+}

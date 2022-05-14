@@ -9,7 +9,6 @@ export default class LeftBar extends React.Component{
         this.state = {
             date: new Date(),
         }
-     this.handleDateChange = this.handleDateChange.bind(this);
     }
 
     handleDateChange = date => {
