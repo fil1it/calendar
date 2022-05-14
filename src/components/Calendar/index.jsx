@@ -68,7 +68,7 @@ export default class Calendar extends React.Component {
         return (
             <div className="calendar">
                 <header>
-                    <button onClick={this.handlePrevMonthButtonClick}>{'<'}</button>
+                    <button className="calBtn" onClick={this.handlePrevMonthButtonClick}>{'<'}</button>
 
                     <select
                         ref={element => this.monthSelect = element}
@@ -90,7 +90,7 @@ export default class Calendar extends React.Component {
                         )}
                     </select>
 
-                    <button onClick={this.handleNextMonthButtonClick}>{'>'}</button>
+                    <button className="calBtn" onClick={this.handleNextMonthButtonClick}>{'>'}</button>
                 </header>
 
                 <table>

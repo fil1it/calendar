@@ -8,6 +8,17 @@
 .calendar header select {
     margin: 0 4px;
 }
+.calBtn{
+    cursor: pointer;
+    padding: 4px 8px;
+    vertical-align: middle;
+    text-align: center;
+    border: 2px solid transparent;
+}
+.calBtn:hover {
+    background-color: #bfc1fb;
+    cursor: pointer;
+}
 
 .calendar table {
     table-layout: fixed;

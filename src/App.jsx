@@ -1,17 +1,12 @@
-import React from "react";
+import React, {useState}from "react";
 import "./style.css"
 import LoginForm from "./components/LoginForm";
+import RegForm from "./components/RegForm";
+import AddEvent from "./components/AddEvent";
 //import LeftBar from "./components/LeftBar";
 import Dashboard from "./components/Dashboard";
 import Header from "./components/Header"
-//import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
-// const events = [
-//   {
-//     date: '',
-//     title: "событие 1"
-//   },
-// ]
+import { BrowserRouter as Router, Link, Routes, Route } from "react-router-dom";
 
 class App extends React.Component{
 
@@ -20,9 +15,9 @@ class App extends React.Component{
     this.state = {
       isLogin: false,
       name: "",
-      //date: new Date()
     };
   }
+  
 
   handleLoginClick = (param) => {
     this.setState({ isLogin: param });
@@ -38,24 +33,78 @@ class App extends React.Component{
 
   render (){
     return <div className="App">
-
-      <Header 
-        isLogin={this.state.isLogin} 
-        handleLoginClick={ this.handleLoginClick }/>
-
-      {this.state.isLogin ? <div>
-        <Dashboard 
+          <Router>
+            <Header 
+              isLogin={this.state.isLogin} 
+              handleLoginClick={ this.handleLoginClick }
+            />
+            <Routes>
+              <Route element={<Dashboard
+                  isLogin={this.state.isLogin} 
+                  handleLoginClick={ this.handleLoginClick}
+                  name={this.state.name} 
+                />}
+                path="/"
+              />
+              <Route
+                element={<AddEvent
+                  isLogin={this.state.isLogin} />}
+                path="/addevents"
+              />
+              <Route
+                element={<RegForm/>}
+                path="/registration"
+              />
+              <Route
+                element={<LoginForm handleLoginClick={ this.handleLoginClick } updateName={this.updateName}/>}
+                path="/login"
+              />
+              
+            </Routes>
+          </Router>    
+        </div>
+     
+      
+      {/* {this.state.isLogin ? <div>
+        <Router>
+          <Header 
+            isLogin={this.state.isLogin} 
+            handleLoginClick={ this.handleLoginClick }
+          />
+        </Router>
+        <Dashboard
           //date={this.state.date} 
           handleLoginClick={ this.handleLoginClick}
           name={this.state.name} 
           //events={this.state.events}
         />
-      </div> : <LoginForm handleLoginClick={ this.handleLoginClick } updateName={this.updateName}/>}
+      </div> :
+        <div>
+          <Router>
+            <Header 
+              isLogin={this.state.isLogin} 
+              handleLoginClick={ this.handleLoginClick }
+            />
+            <Routes>
+              <Route
+                element={<RegForm/>}
+                path="/registration"
+                />
+                <Route
+                  element={<LoginForm handleLoginClick={ this.handleLoginClick } updateName={this.updateName}/>}
+                  exact path="/login"
+                />
+            </Routes>
+          </Router>    
+        </div>
+      // <LoginForm handleLoginClick={ this.handleLoginClick } updateName={this.updateName}/>
+      
+      } */
 
-     
-    </div>;
-    
   }
+}
 }
 
 export default App;
+
+
