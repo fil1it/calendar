@@ -52,11 +52,11 @@ class App extends React.Component{
                 path="/addevents"
               />
               <Route
-                element={<RegForm/>}
+                element={<RegForm handleLoginClick={ this.handleLoginClick }/>}
                 path="/registration"
               />
               <Route
-                element={<LoginForm handleLoginClick={ this.handleLoginClick } updateName={this.updateName}/>}
+                element={<LoginForm handleLoginClick={ this.handleLoginClick } updateName={this.updateName} isLogin={this.state.isLogin}/>}
                 path="/login"
               />
               

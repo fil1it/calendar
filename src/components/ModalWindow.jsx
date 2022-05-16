@@ -2,35 +2,51 @@ import React from "react";
 import {Link} from "react-router-dom";
 import EventsStore from "../store/EventsStore";
 import { observer } from "mobx-react-lite";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-// const handleClick = () => {
-//     const {handleModalClick} = this.props;
-//     handleModalClick(false);
-// }
-
-
+const url = 'http://localhost:5000/delete';
 
 const ModalWindow = observer((props) =>{
     
+
+    const deleteEvent = () =>{
+        let delId = EventsStore.currentEvent.eventId;
+        try{
+            (async () => {
+                const response = await axios.post(url,{delId}).then( await function (response) {
+                    props.handleModalClick(false)
+                    props.setDel(true);
+                })
+                .catch(function (error) {
+                        console.log("error");
+                })
+            })();} catch (e){
+                alert("Ошибка")
+            }
+    }
+
     if (!props.modalActive){
             return null
     }
     else{
-
-        let title = EventsStore.events[props.modalId-1].title;
-        let date = EventsStore.events[props.modalId-1].date;
+        //{console.log(EventsStore.currentEvent)}
+        let title = EventsStore.currentEvent.name;
+        let description = EventsStore.currentEvent.description;
 
          return<div className={props.modalActive ? "modal active" : "modal"} 
                     onClick={() => props.handleModalClick(false)}>
             <div className="modal_content" onClick={e => e.stopPropagation()}>
                 <div className="modal_header">
                     <h2>{title}</h2>
-                    {/* {EventsStore.events[props.modalId]} */}
                 </div>
                 <div className="modal_title">
-                    {date}
+                    {description}
                 </div>
-                <Link to="/addevents" className="editBtn">Редактировать</Link>
+                <div className="modal_footer">
+                    <Link to="/addevents" className="editBtn">Редактировать</Link>
+                    <button className="delBtn" onClick={deleteEvent}>Удалить</button>
+                </div>
             </div>
         </div>
     }

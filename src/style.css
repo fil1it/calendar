@@ -177,8 +177,8 @@ input:hover, input:focus {
 }
 
 .delBtn {
-    width: 120px;
-    height: 35px;
+    width: 150px;
+    height: 50px;
     border-radius: 10px;
     display: inline-block;
     margin-left:auto;
@@ -218,8 +218,8 @@ input:hover, input:focus {
 }
 
 .editBtn {
-  width: 200px;
-  height: 35px;
+  width: 150px;
+  height: 30px;
   border-radius: 10px;
   display: inline-block;
   margin-left:auto;
@@ -394,4 +394,8 @@ input:hover, input:focus {
   background-color: white;
   min-height: 200px;
   width: 400px;
+}
+.modal_footer{
+  display: flex;
+  flex-direction: row;
 }

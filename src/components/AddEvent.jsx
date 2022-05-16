@@ -2,15 +2,18 @@ import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import EventsStore from "../store/EventsStore";
 import { observer } from "mobx-react-lite";
+import { v4 as uuid } from 'uuid';
+import axios from "axios";
+
+const url = 'http://localhost:5000/add';
 
 const AddEvent = observer((props) => {
 
-    const [newDate, setNewDate] = useState(new Date());
+    const [date, setdate] = useState(new Date());
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     
     useEffect(() => {
-        console.log(EventsStore.currentId);
         name2();
     },[])
 
@@ -22,7 +25,7 @@ const AddEvent = observer((props) => {
     },[props.isLogin])
 
     const dateChanged = (e) => {
-        setNewDate(e.target.value);
+        setdate(e.target.value);
     }
     const nameChanged = (e) => {
         setName(e.target.value);
@@ -31,18 +34,30 @@ const AddEvent = observer((props) => {
         setDescription(e.target.value);
     }
 
-    const handleClick = (event) => {
-        event.preventDefault();
-        console.log(newDate)
-    }
-
     const name2 = () => {
-        console.log(EventsStore.currentId)
-        if(EventsStore.currentId > 0){
-            setName(EventsStore.events[EventsStore.currentId].title)
+        if(EventsStore.currentId != 0){
+            //console.log(EventsStore.currentEvent);
+            //setName(EventsStore.currentEvent.name)
         }
         else{
             setName('');
+        }
+    }
+
+    const handleClick = (event) => {
+        event.preventDefault();
+        const eventId = uuid();
+        try{
+            (async () => {
+                const response = await axios.post(url,{eventId, date, name, description}).then( await function (response) {
+                    navigate("/");
+                  })
+                  .catch(function (error) {
+                    console.log("error");
+                  })
+            })();
+        } catch (e){
+            alert("Ошибка")
         }
     }
 

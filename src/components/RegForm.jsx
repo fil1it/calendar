@@ -1,6 +1,13 @@
+import axios from "axios";
 import React, {useEffect, useState} from "react";
+import { v4 as uuid } from 'uuid';
+import { useNavigate } from "react-router-dom";
+import { observer } from "mobx-react-lite";
+import EventsStore from "../store/EventsStore";
 
-const RegForm = (props) => {
+const url = 'http://localhost:5000/reg';
+
+const RegForm = observer((props) => {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
@@ -14,6 +21,8 @@ const RegForm = (props) => {
     const [emailErr, setEmailErr] = useState('Введите логин');
     const [passwordErr, setPasswordErr] = useState('Введите пароль');
     const [formvalid, setFormValid] = useState(false);
+    
+    let navigate = useNavigate();
 
     useEffect( () => {
         if(loginErr || passwordErr){
@@ -84,9 +93,21 @@ const RegForm = (props) => {
 
     const handleClick = (event) => {
         event.preventDefault();
-
-        props.updateName(login);
-        props.handleLoginClick(true);
+        const userId = uuid();
+        try{
+            (async () => {
+                const response = await axios.post(url, {userId ,name, login, email, password}).then(await function (response) {  
+                    EventsStore.currentId = userId;
+                    props.handleLoginClick(true);
+                    navigate("/");
+                }).catch(function (error) {
+                    console.log("error");
+                  })
+            })();
+            
+        }catch(err){
+            console.log("ошибка")
+        }
     }
 
     return(
@@ -105,6 +126,6 @@ const RegForm = (props) => {
             </form>
         </div>
     )
-}
+})
 
 export default RegForm;
