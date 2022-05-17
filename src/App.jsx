@@ -14,7 +14,6 @@ class App extends React.Component{
     super(props);
     this.state = {
       isLogin: false,
-      name: "",
     };
   }
   
@@ -42,7 +41,6 @@ class App extends React.Component{
               <Route element={<Dashboard
                   isLogin={this.state.isLogin} 
                   handleLoginClick={ this.handleLoginClick}
-                  name={this.state.name} 
                 />}
                 path="/"
               />
@@ -62,50 +60,10 @@ class App extends React.Component{
               <Route path="*"element={<Dashboard
                   isLogin={this.state.isLogin} 
                   handleLoginClick={ this.handleLoginClick}
-                  name={this.state.name} 
                 />}></Route>
             </Routes>
           </Router>    
         </div>
-     
-      
-      {/* {this.state.isLogin ? <div>
-        <Router>
-          <Header 
-            isLogin={this.state.isLogin} 
-            handleLoginClick={ this.handleLoginClick }
-          />
-        </Router>
-        <Dashboard
-          //date={this.state.date} 
-          handleLoginClick={ this.handleLoginClick}
-          name={this.state.name} 
-          //events={this.state.events}
-        />
-      </div> :
-        <div>
-          <Router>
-            <Header 
-              isLogin={this.state.isLogin} 
-              handleLoginClick={ this.handleLoginClick }
-            />
-            <Routes>
-              <Route
-                element={<RegForm/>}
-                path="/registration"
-                />
-                <Route
-                  element={<LoginForm handleLoginClick={ this.handleLoginClick } updateName={this.updateName}/>}
-                  exact path="/login"
-                />
-            </Routes>
-          </Router>    
-        </div>
-      // <LoginForm handleLoginClick={ this.handleLoginClick } updateName={this.updateName}/>
-      
-      } */
-
-  }
 }
 }
 
