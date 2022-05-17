@@ -27,17 +27,6 @@ const LoginForm = (props) => {
         }
     }, [emailErr, passwordErr])
 
-    // useEffect(()=>{
-    //     (async () => {
-    //         try{
-    //             const result = await fetch(url);
-    //             const users = await result.json();
-    //     } catch{
-    //         console.log('Ошибка подключения!');
-    //     }})();
-        
-    // },[])
-
     const loginChanged = (e) => {
         setEmail(e.target.value);
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

@@ -10,14 +10,23 @@ const urlEdit = 'http://localhost:5000/edit';
 
 const AddEvent = observer((props) => {
 
-    const [date, setDate] = useState(new Date().toLocaleString());
+    const [date, setDate] = useState();
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [edit, setEdit] = useState(false);
+    const [formvalid, setFormValid] = useState(false);
 
     useEffect(() => {
         update();
     },[])
+    useEffect( () => {
+        if(date && name && description){
+            setFormValid(true)
+        }
+        else{
+            setFormValid(false)
+        }
+    }, [date, name, description])
 
     let navigate = useNavigate();
     useEffect(() => {
@@ -109,7 +118,7 @@ const AddEvent = observer((props) => {
                 <input onChange={e => nameChanged(e)} name="Название" type="text" className="inputBox" placeholder="Название" value={name}/><br/>
                 <h2>Описание события</h2>
                 <textarea onChange={e => descriptionChanged(e)} name="Описание события" className="opisEvent" placeholder="Описание события" value={description}/><br></br>
-                <button type="submit" className="submitButton">Добавить</button>
+                <button type="submit" disabled={!formvalid} className="submitButton">Добавить</button>
             </form>
         </div>
     )
