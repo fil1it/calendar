@@ -18,6 +18,16 @@ const Events = observer((props) => {
         setModalActive(true);
     }
     
+    if(props.currentEvents.length == 0){
+    return <>
+            <div>
+                {props.date && <h2>Дата: {props.date.toLocaleDateString()}</h2>}
+            </div>
+            <div>
+                <h3>У вас еще нет событий на этот день!</h3>
+            </div>
+        </>
+    }else
     return(
         <div className="events">
             <div>

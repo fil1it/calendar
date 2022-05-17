@@ -59,7 +59,11 @@ class App extends React.Component{
                 element={<LoginForm handleLoginClick={ this.handleLoginClick } updateName={this.updateName} isLogin={this.state.isLogin}/>}
                 path="/login"
               />
-              
+              <Route path="*"element={<Dashboard
+                  isLogin={this.state.isLogin} 
+                  handleLoginClick={ this.handleLoginClick}
+                  name={this.state.name} 
+                />}></Route>
             </Routes>
           </Router>    
         </div>
