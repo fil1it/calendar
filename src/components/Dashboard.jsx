@@ -21,6 +21,7 @@ const Dashboard = observer((props) => {
         }
     },[props.isLogin])
 
+
     useEffect(() => {
         connect();
         setDel(false);
@@ -28,12 +29,14 @@ const Dashboard = observer((props) => {
 
     useEffect(() => {
         connect();
+        EventsStore.currentEventId = 0;
     },[date])
     
     const connect =()=>{
         try{
+            const userId = EventsStore.currentId;
             (async () => {
-                const response = await axios.post(url,{date}).then( await function (response) {
+                const response = await axios.post(url,{userId,date}).then( await function (response) {
                     EventsStore.currentEvents = [];
                     setCurrentEvents(response.data);
                     EventsStore.currentEvents = response.data;

@@ -20,6 +20,7 @@ const RegForm = observer((props) => {
     const [loginErr, setLoginErr] = useState('Введите логин');
     const [emailErr, setEmailErr] = useState('Введите логин');
     const [passwordErr, setPasswordErr] = useState('Введите пароль');
+    const [loginRep, setLoginRep] = useState('');
     const [formvalid, setFormValid] = useState(false);
     
     let navigate = useNavigate();
@@ -101,6 +102,7 @@ const RegForm = observer((props) => {
                     props.handleLoginClick(true);
                     navigate("/");
                 }).catch(function (error) {
+                    setLoginRep('Такой email уже занят!');
                     console.log("error");
                   })
             })();
@@ -122,6 +124,7 @@ const RegForm = observer((props) => {
                 <input name="login" onChange={e => loginChanged(e)} value={login} onBlur={e => blurHandler(e)} type="text" className="inputBox" placeholder="Логин"/><br/>
                 {(passwordDirty) && <div style={{color:'red'}}>{passwordErr}</div>}
                 <input name="password" onChange={e => passwordChanged(e)} value={password} onBlur={e => blurHandler(e)} type="password" className="inputBox" placeholder="Пароль"/><br></br>
+                {(loginRep) && <div style={{color:'red'}}>{loginRep}</div>}
                 <button type="submit" disabled={!formvalid} className="submitButton">Войти</button>
             </form>
         </div>

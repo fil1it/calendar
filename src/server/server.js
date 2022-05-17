@@ -13,7 +13,12 @@ app.post("/reg", jsonParser, function(request, response){
     let data = fs.readFileSync(fileName, 'utf-8')
     let users = JSON.parse(data)
     let newUser = request.body
-    
+    const{email} = request.body
+    for(var i = 0; i < users.length; i++){
+        if(users[i].email == email){
+            return response.status(400).json({message:"Такой email уже существует"})
+        }
+    }
     users.push(newUser)
     fs.writeFileSync(fileName, JSON.stringify(users))
     response.sendFile(fileName,{})
@@ -62,14 +67,23 @@ app.post("/delete", jsonParser, function(request, response){
     let {delId} = request.body
     let i = events.findIndex(el => el.eventId == delId)
     events.splice(i,1)
-    // for(var i = 0; i < events.length; i++){
-    //     if(events[i].eventId == delId){
-            
-    //     }
-    // }
     fs.writeFileSync(fileName, JSON.stringify(events))
     response.sendFile(fileName,{})
 })
+
+app.post("/edit", jsonParser, function(request, response){
+    var fileName = path.resolve(__dirname, 'data/events.json')
+    let data = fs.readFileSync(fileName, 'utf-8')
+    let events = JSON.parse(data)
+    let newEvent = request.body
+    let {eventId} = request.body
+    let i = events.findIndex(el => el.eventId == eventId)
+    events.splice(i,1)
+    events.push(newEvent)
+    fs.writeFileSync(fileName, JSON.stringify(events))
+    response.sendFile(fileName,{})
+})
+
 
 app.get('/events', function(request, response){
     var eventsFileName = path.resolve(__dirname, './data/events.json')
@@ -80,12 +94,16 @@ app.post("/events", jsonParser, function(request, response){
     var fileName = path.resolve(__dirname, 'data/events.json')
     let data = fs.readFileSync(fileName, 'utf-8')
     let events = JSON.parse(data)
+    events.sort(function( a, b){return new Date(a.date)-new Date(b.date);});
     let curEvents = []
+    let {userId, date} = request.body
     for(var i = 0; i < events.length; i++){
-        var date1 = new Date(request.body.date)
-        var date2 = new Date(events[i].date)
-        if(date1.toLocaleDateString() == date2.toLocaleDateString()){
-            curEvents.push(events[i])
+        if(events[i].userId == userId){
+            var date1 = new Date(date)
+            var date2 = new Date(events[i].date)
+            if(date1.toLocaleDateString() == date2.toLocaleDateString()){
+                curEvents.push(events[i])
+            }
         }
     }
     return response.json(curEvents)

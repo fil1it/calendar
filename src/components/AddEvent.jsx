@@ -6,15 +6,17 @@ import { v4 as uuid } from 'uuid';
 import axios from "axios";
 
 const url = 'http://localhost:5000/add';
+const urlEdit = 'http://localhost:5000/edit';
 
 const AddEvent = observer((props) => {
 
-    const [date, setdate] = useState(new Date());
+    const [date, setDate] = useState(new Date().toLocaleString());
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
-    
+    const [edit, setEdit] = useState(false);
+
     useEffect(() => {
-        name2();
+        update();
     },[])
 
     let navigate = useNavigate();
@@ -25,7 +27,7 @@ const AddEvent = observer((props) => {
     },[props.isLogin])
 
     const dateChanged = (e) => {
-        setdate(e.target.value);
+        setDate(e.target.value);
     }
     const nameChanged = (e) => {
         setName(e.target.value);
@@ -34,30 +36,67 @@ const AddEvent = observer((props) => {
         setDescription(e.target.value);
     }
 
-    const name2 = () => {
-        if(EventsStore.currentId != 0){
-            //console.log(EventsStore.currentEvent);
-            //setName(EventsStore.currentEvent.name)
+    const update = () => {
+        //console.log(edit);
+        if(EventsStore.currentEventId != 0){
+            setEdit(true);
+            setName(EventsStore.currentEvent.name);
+            setDate(EventsStore.currentEvent.date);
+            setDescription(EventsStore.currentEvent.description);
+            
         }
         else{
             setName('');
+            setDate(new Date().toLocaleString());
+            setDescription('');
+        }
+    }
+
+    const editEvent = () => {
+        setEdit(false);
+        try{
+            const {userId, eventId} = EventsStore.currentEvent;
+            (async () => {
+                const response = await axios.post(urlEdit,{userId, eventId, date, name, description})
+                .then( await function (response) {
+                    navigate("/");
+                    
+                  })
+                  .catch(function (error) {
+                    console.log("error");
+                    
+                  })
+            })();
+        } catch (e){
+            alert("Ошибка ред")
+        }
+    }
+
+    const addEvent = () =>{
+        try{
+            const eventId = uuid();
+            const userId = EventsStore.currentId;
+            (async () => {
+                const response = await axios.post(url,{userId, eventId, date, name, description})
+                .then( await function (response) {
+                    navigate("/");
+                })
+                .catch(function (error) {
+                    console.log("error");
+                })
+            })();
+        } catch (e){
+            alert("Ошибка доб")
         }
     }
 
     const handleClick = (event) => {
         event.preventDefault();
-        const eventId = uuid();
-        try{
-            (async () => {
-                const response = await axios.post(url,{eventId, date, name, description}).then( await function (response) {
-                    navigate("/");
-                  })
-                  .catch(function (error) {
-                    console.log("error");
-                  })
-            })();
-        } catch (e){
-            alert("Ошибка")
+        if(edit){
+            editEvent();
+        }
+        else{
+            addEvent();
         }
     }
 
@@ -65,11 +104,11 @@ const AddEvent = observer((props) => {
         <div className="addEvent">
             <form onSubmit={handleClick}>
                 <h2>Дата и время</h2>
-                <input onChange={e => dateChanged(e)} name="datetime" type="datetime-local"/>
+                <input onChange={e => dateChanged(e)} name="datetime" type="datetime-local" value={date}/>
                 <h2>Название события</h2>
                 <input onChange={e => nameChanged(e)} name="Название" type="text" className="inputBox" placeholder="Название" value={name}/><br/>
                 <h2>Описание события</h2>
-                <textarea onChange={e => descriptionChanged(e)} name="Описание события" className="opisEvent" placeholder="Описание события"/><br></br>
+                <textarea onChange={e => descriptionChanged(e)} name="Описание события" className="opisEvent" placeholder="Описание события" value={description}/><br></br>
                 <button type="submit" className="submitButton">Добавить</button>
             </form>
         </div>

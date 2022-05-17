@@ -3,33 +3,19 @@ import Modal from './ModalWindow';
 import EventsStore from "../store/EventsStore";
 import { observer } from "mobx-react-lite";
 
-
-
 const Events = observer((props) => {
     
     const [modalActive, setModalActive] = useState(false);
-    // const [modalId, setModalId] = useState();
-    // const [currentEvent, setCurrentEvent] = useState();
-
-    // useEffect(() => {
-    //     EventsStore.currentEventId = modalId;
-    //     console.log(currentEvent)
-    // }, [currentEvent])
-
-    const handleModalClick = (param) => {
-        setModalActive(param)
-    }
-
+    
     const handleEventClick = (event) => {
         let currentEventId = event.target.id;
-        //setModalId(event.target.id);
         props.currentEvents.forEach( event => {
             if(event.eventId == currentEventId ){
-                //setCurrentEvent(event);
                 EventsStore.currentEvent = event;
+                EventsStore.currentEventId = currentEventId
             }
         });
-        handleModalClick(true);
+        setModalActive(true);
     }
     
     return(
@@ -40,14 +26,14 @@ const Events = observer((props) => {
             </div>
                 {props.currentEvents.map((event) => 
                     <div className="event" key={event.eventId} id={event.eventId} onClick={(e) => handleEventClick(e)}>
+                            <h4>{event.date.slice(-5)}</h4>&nbsp;
                             {event.name} 
-                            
                     </div>
                     
                 )}
                 <Modal 
                     modalActive={modalActive} 
-                    handleModalClick={handleModalClick}
+                    setModalActive={setModalActive}
                     setDel={props.setDel}
                 >
                 </Modal>

@@ -15,7 +15,7 @@ const ModalWindow = observer((props) =>{
         try{
             (async () => {
                 const response = await axios.post(url,{delId}).then( await function (response) {
-                    props.handleModalClick(false)
+                    props.setModalActive(false)
                     props.setDel(true);
                 })
                 .catch(function (error) {
@@ -27,6 +27,7 @@ const ModalWindow = observer((props) =>{
     }
 
     if (!props.modalActive){
+        EventsStore.currentEventId = 0;
             return null
     }
     else{
@@ -35,7 +36,7 @@ const ModalWindow = observer((props) =>{
         let description = EventsStore.currentEvent.description;
 
          return<div className={props.modalActive ? "modal active" : "modal"} 
-                    onClick={() => props.handleModalClick(false)}>
+                    onClick={() => props.setModalActive(false)}>
             <div className="modal_content" onClick={e => e.stopPropagation()}>
                 <div className="modal_header">
                     <h2>{title}</h2>
